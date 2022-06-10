@@ -64,6 +64,11 @@ export const Service = ({ bookableItem }: Props) => {
             await onSelectClickServiceFirst()
         }
     }
+    let services = localStorage.getItem('services') || "";
+    services = JSON.parse(services) || []
+    if(services.includes(bookableItem.name)){
+        cart?.addBookableItem(bookableItem)
+    }
 
     const btnName = hasOptions ? 'Select options' : isCartAvailableBookableItem(bookableItem) ? 'Select specialist' : 'Select'
 
