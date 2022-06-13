@@ -6,6 +6,7 @@ import { useFlowStep } from 'lib/state/booking-flow'
 import { useCartStoreState } from 'lib/state/store'
 import { useSetLastSelectedBookableItem } from 'lib/state/services'
 import { useContext } from 'react'
+import React, { useEffect } from 'react'
 import { LayoutContext } from 'components/atoms/layout/LayoutContext'
 import { FlowType, useAppConfig } from 'lib/state/config'
 import { ServiceAvailableBookableItem } from 'components/atoms/layout/service/ServiceAvailableBookableItem'
@@ -43,6 +44,7 @@ export const Service = ({ bookableItem }: Props) => {
         return true
     }
 
+
     const onSelectClickLocationFirst = async () => {
         await selectClickLocationBase()
     }
@@ -64,11 +66,15 @@ export const Service = ({ bookableItem }: Props) => {
             await onSelectClickServiceFirst()
         }
     }
-    let services = localStorage.getItem('services') || "";
-    services = JSON.parse(services) || []
-    if(services.includes(bookableItem.name)){
-        cart?.addBookableItem(bookableItem)
-    }
+   
+
+    useEffect(() => {
+        let services = localStorage.getItem('services') || "";
+        services = JSON.parse(services) || []
+        if(services.includes(bookableItem.name)){
+            cart?.addBookableItem(bookableItem)
+        }
+    }, [])
 
     const btnName = hasOptions ? 'Select options' : isCartAvailableBookableItem(bookableItem) ? 'Select specialist' : 'Select'
 
